@@ -4,7 +4,6 @@ import Square from './Square'
 const Board = () => {
 
     const [state, setState] = useState(Array(9).fill(null));
-    const [turn, setTurn] = useState("X");
     const [isXTurn, setIsXTurn] = useState(true);
     const [checkBox, setCheckBox] = useState(false)
     const [choosePlayer, setChoosePlayer] = useState(true)
@@ -15,11 +14,9 @@ const Board = () => {
             return
         }
         else {
-            if (turn === 'O') {
-                setIsXTurn(!isXTurn)
+            if (isXTurn === 'X') {
                 state[index] = isXTurn ? 'X' : 'O'
                 setIsXTurn(!isXTurn)
-                // console.log("hear 1");
                 if (state.includes(null)) {
                     return setChoosePlayer(false)
                 }
@@ -27,17 +24,28 @@ const Board = () => {
                     setCheckBox(!checkBox)
                 }
             }
-            // else {
-            //     console.log("hear 2");
-            //     state[index] = isXTurn ? 'X' : 'O'
-            //     setIsXTurn(!isXTurn)
-            //     if (!state.includes(null)) {
-            //         setCheckBox(!checkBox)
-            //     }
-            // }
+            else {
+                setIsXTurn(!isXTurn)
+                state[index] = isXTurn ? 'X' : 'O'
+                setIsXTurn(!isXTurn)
+                if (state.includes(null)) {
+                    return setChoosePlayer(false)
+                }
+                else {
+                    setCheckBox(!checkBox)
+                }
+            }
         }
     }
-    console.log(choosePlayer);
+
+    const getValue = (e) => {
+        if (e === "X") {
+            setIsXTurn(true)
+        }
+        else {
+            setIsXTurn(false)
+        }
+    }
 
     const checkWinner = () => {
         let winnerPoints = [
@@ -90,17 +98,16 @@ const Board = () => {
             <h1>Tic Tac Toe Game</h1>
             {choosePlayer ? <div className='select-player'>
                 <h3>Select Your Player</h3>
-                <select onClick={(e) => setTurn(e.target.value)}>
+                <select onClick={(e) => getValue(e.target.value)}>
                     <option value="X">X</option>
                     <option value="O">O</option>
                 </select>
-            </div> : <></>}
+            </div> : <>{checkBox ? <></> : <>{isWinner ? <></> : <h3>Player {isXTurn ? "X" : "O"} Your Move</h3>}</>}</>}
 
             {isWinner ? <></> : checkBox ? <h2>Oops no one won the game let's start again <button onClick={playAgain}>Restart</button></h2> : <></>}
             {
                 isWinner ? <><h3>{isWinner} is winner</h3> <button onClick={playAgain}>Play Again</button></> :
                     <>
-                        <h3>Player {isXTurn ? "X" : "O"} Your Move</h3>
                         <div className="game-board">
                             <div className="row">
                                 <Square onClick={() => handlClick(0)} value={state[0]} />
