@@ -102,9 +102,9 @@ const Board = () => {
                     <option value="X">X</option>
                     <option value="O">O</option>
                 </select>
-            </div> : <>{checkBox ? <></> : <>{isWinner ? <></> : <h3>Player {isXTurn ? "X" : "O"} Your Move</h3>}</>}</>}
+            </div> : <>{checkBox ? <></> : <>{isWinner ? <></> : <h3>Player <span>{isXTurn ? "X" : "O"}</span> Your Move</h3>}</>}</>}
 
-            {isWinner ? <></> : checkBox ? <h2>Oops no one won the game let's start again <button onClick={playAgain}>Restart</button></h2> : <></>}
+            {isWinner ? <></> : checkBox ? <h2>Oops, no one won the game, let's start again <button onClick={playAgain}>Restart</button></h2> : <></>}
             {
                 isWinner ? <><h3>{isWinner} is winner</h3> <button onClick={playAgain}>Play Again</button></> :
                     <>
